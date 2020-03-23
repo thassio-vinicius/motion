@@ -7,13 +7,13 @@ class CustomThumb extends SliderComponentShape {
   final UI.Image image;
 
   const CustomThumb({
-    this.thumbRadius = 6.0,
+    this.thumbRadius = 1.0,
     this.image,
   });
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size.fromRadius(thumbRadius);
+    return Size.square(2);
   }
 
   @override
