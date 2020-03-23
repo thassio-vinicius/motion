@@ -224,19 +224,27 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 36),
+                Container(
+                  margin: EdgeInsets.only(top: 36),
+                  //height: MediaQuery.of(context).size.height * 0.30,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      _buildWeekDay(context, day: 'Dom'),
-                      _buildWeekDay(context, day: 'Seg'),
-                      _buildWeekDay(context, day: 'Ter'),
-                      _buildWeekDay(context, day: 'Qua'),
-                      _buildWeekDay(context, day: 'Qui'),
-                      _buildWeekDay(context, day: 'Sex'),
-                      _buildWeekDay(context, day: 'Sáb'),
+                      _buildWeekDay(context,
+                          day: 'Dom', isToday: _getToday('Dom')),
+                      _buildWeekDay(context,
+                          day: 'Seg', isToday: _getToday('Seg')),
+                      _buildWeekDay(context,
+                          day: 'Ter', isToday: _getToday('Ter')),
+                      _buildWeekDay(context,
+                          day: 'Qua', isToday: _getToday('Qua')),
+                      _buildWeekDay(context,
+                          day: 'Qui', isToday: _getToday('Qui')),
+                      _buildWeekDay(context,
+                          day: 'Sex', isToday: _getToday('Sex')),
+                      _buildWeekDay(context,
+                          day: 'Sáb', isToday: _getToday('Sáb')),
                     ],
                   ),
                 )
@@ -248,72 +256,102 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _buildWeekDay(
-    BuildContext context, {
-    String day,
-  }) {
-    bool isToday = false;
+  bool _getToday(String day) {
+    String formattedDate;
 
-    initializeDateFormatting("pt_BR", null).then((_) {
-      print('DIA:' + day.toLowerCase());
-      print(DateFormat.E('pt_BR').format(DateTime.now()));
+    DateTime date = DateTime.now().subtract(Duration(hours: 3));
+    initializeDateFormatting('pt_BR');
+    formattedDate = DateFormat.E('pt_BR').format(date);
 
-      DateTime date = DateTime.now().subtract(Duration(hours: 3));
+    print('day: $day');
+    print('formatted day: $formattedDate');
 
-      if (day.toLowerCase() == DateFormat.E('pt_BR').format(date)) {
-        setState(() {
-          isToday = true;
-        });
-      }
-    });
+    if (day.toLowerCase() == formattedDate) {
+      return true;
+    }
+    return false;
+  }
 
+  Widget _buildWeekDay(BuildContext context, {String day, bool isToday}) {
     return Stack(
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.12,
-          height: MediaQuery.of(context).size.width * 0.20,
-          decoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(color: Colors.white),
-              right: BorderSide(color: Colors.white),
-            ),
-          ),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(
-              day,
-              style: TextStyle(
-                fontSize: 11,
-                fontFamily: CustomFonts.helvetica65,
-                color: Colors.white.withAlpha(180),
-              ),
-            ),
-          ),
-        ),
-        if (isToday)
-          Container(
-            width: MediaQuery.of(context).size.width * 0.12,
-            height: MediaQuery.of(context).size.width * 0.25,
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(132),
-              borderRadius: BorderRadius.all(
-                Radius.circular(13),
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                '25-33min',
-                style: TextStyle(
-                  fontFamily: CustomFonts.helvetica65,
-                  fontSize: 9,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+      children: isToday
+          ? [
+              if (isToday)
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.12,
+                  height: MediaQuery.of(context).size.width * 0.30,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withAlpha(132),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(13),
+                    ),
+                  ),
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.only(top: 8),
+                    child: Text(
+                      '25-33min',
+                      style: TextStyle(
+                        fontFamily: CustomFonts.helvetica65,
+                        fontSize: 9,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              Positioned(
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.12,
+                  height: MediaQuery.of(context).size.width * 0.20,
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(color: Colors.transparent),
+                      right: BorderSide(color: Colors.transparent),
+                    ),
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.only(bottom: 21),
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      day,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontFamily: CustomFonts.helvetica65,
+                        color: Colors.white.withAlpha(180),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          )
-      ],
+            ]
+          : [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.12,
+                height: MediaQuery.of(context).size.width * 0.20,
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(color: Colors.white),
+                    right: BorderSide(color: Colors.white),
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    day,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontFamily: CustomFonts.helvetica65,
+                      color: Colors.white.withAlpha(180),
+                    ),
+                  ),
+                ),
+              ),
+            ],
     );
   }
 }
