@@ -60,15 +60,13 @@ class CustomTracker extends SliderTrackShape {
         Colors.red.withOpacity(1.0),
         // Colors.pink.withOpacity(1.0),
         Colors.purple.withOpacity(1.0),
-        Colors.blue.shade700.withOpacity(1.0),
+        Colors.blue.shade900.withOpacity(1.0),
       ],
       stops: [
         0.25,
-        //0.25,
         0.4,
         0.45,
         0.55,
-        //0.55,
         0.70,
         0.75,
       ],
@@ -79,7 +77,6 @@ class CustomTracker extends SliderTrackShape {
 
     final Paint fillPaint = Paint()
       ..shader = gradient.createShader(rect)
-      //..color = Colors.greenAccent
       ..style = PaintingStyle.fill;
 
     final Paint borderPaint = Paint()

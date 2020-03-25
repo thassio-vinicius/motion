@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:motion/fontes.dart';
-import 'package:motion/login.dart';
+import 'package:motion/pages/login.dart';
+import 'package:motion/utils/fonts.dart';
 
 void main() {
   runApp(
